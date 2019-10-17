@@ -40,6 +40,8 @@ class VipService
         $nextLevel = $this->getNextLevel($obj->level);
         $VipD = config('vip.levels');
         $obj->nextLevelPoint = $VipD[$nextLevel];
+        $obj->curLevelPoint = $VipD[$obj->level];
+        $obj->percentage = ($obj->point - $obj->curLevelPoint) * 100.0 / ($obj->nextLevelPoint - $obj->curLevelPoint);
         return $obj;
     }
     
@@ -57,11 +59,31 @@ class VipService
         }
     }
     
+    public function calculateLevel($point)
+    {
+        $VipD = config('vip.levels');
+        ksort($VipD);
+        foreach ($VipD as $level => $lvPoint)
+        {
+            if ($point < $lvPoint)
+                return max(0, $level - 1);
+            if ($point == $lvPoint)
+                return $level;
+        }
+        // max
+        return $level;
+    }
+    
+    private function convert2Point($coin)
+    {
+        return intval($coin / 1000);
+    }
+    
     public function handle(UserTopup $event)
     {
         Log::debug("Vip user has topup..");
         $record = $this->getRecord($event->uid);
-        $point = intval($event->coin / 1000);
+        $point = $this->convert2Point($event->coin);
         $nextLevel = $this->getNextLevel($record->level);
         $newPoint = $record->point + $point;
         $VipD = config('vip.levels');
@@ -71,5 +93,19 @@ class VipService
         }
         $record->point = $newPoint;
         $record->save();
+    }
+    
+    public function check($uid, $total)
+    {
+        $record = $this->getRecord($uid);
+        $point = $this->convert2Point($total);
+        $level = $this->calculateLevel($point);
+        if ($record->level != $level)
+        {
+            $record->level = $level;
+            $record->point = $point;
+            $record->save();
+            return true;
+        }
     }
 }

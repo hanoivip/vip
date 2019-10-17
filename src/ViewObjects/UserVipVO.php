@@ -19,4 +19,14 @@ class UserVipVO
      * @var number
      */
     public $nextLevelPoint;
+    /**
+     * Current vip level's point
+     * @var number
+     */
+    public $curLevelPoint;
+    /**
+     * 
+     * @var float
+     */
+    public $percentage;
 }
