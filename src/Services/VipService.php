@@ -35,6 +35,7 @@ class VipService
     {
         $record = $this->getRecord($uid);
         $obj = new UserVipVO();
+        $obj->userId = $uid;
         $obj->level = $record->level;
         $obj->point = $record->point;
         $nextLevel = $this->getNextLevel($obj->level);
@@ -107,5 +108,17 @@ class VipService
             $record->save();
             return true;
         }
+    }
+    
+    /**
+     * Get all players having vip >= minLevel
+     * @param number $minLevel
+     * @param number $page
+     * @param number $count
+     * @return UserVipVO[]
+     */
+    public function getVipPlayers($minLevel = 1, $page = 0, $count = 10)
+    {
+        
     }
 }

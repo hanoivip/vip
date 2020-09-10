@@ -9,5 +9,16 @@ return [
         5 => 10000,//4
         6 => 20000,//1
         7 => 50000,
+    ],
+    
+    'supporters' => [
+        [
+            'uid' => 1,
+            'name' => '[GM]tester1'
+        ],
+        [
+            'uid' => 2,
+            'name' => '[GM]tester2'
+        ],
     ]
 ];

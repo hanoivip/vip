@@ -4,6 +4,7 @@ namespace Hanoivip\Vip\ViewObjects;
 
 class UserVipVO
 {
+    public $userId;
     /**
      * Current vip level
      * @var number
