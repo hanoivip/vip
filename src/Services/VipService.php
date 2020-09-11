@@ -26,6 +26,20 @@ class VipService
         }
         return $record;
     }
+    public function convertRecord2Info($record)
+    {
+        $obj = new UserVipVO();
+        $obj->userId = $record->user_id;
+        $obj->level = $record->level;
+        $obj->point = $record->point;
+        $nextLevel = $this->getNextLevel($obj->level);
+        $VipD = config('vip.levels');
+        $obj->nextLevelPoint = $VipD[$nextLevel];
+        $obj->curLevelPoint = isset($VipD[$obj->level]) ? $VipD[$obj->level] : 0;
+        $obj->percentage = ($obj->point - $obj->curLevelPoint) * 100.0 / ($obj->nextLevelPoint - $obj->curLevelPoint);
+        $obj->expires = $record->expires;
+        return $obj;
+    }
     /**
      * 
      * @param number $uid
@@ -34,16 +48,7 @@ class VipService
     public function getInfo($uid)
     {
         $record = $this->getRecord($uid);
-        $obj = new UserVipVO();
-        $obj->userId = $uid;
-        $obj->level = $record->level;
-        $obj->point = $record->point;
-        $nextLevel = $this->getNextLevel($obj->level);
-        $VipD = config('vip.levels');
-        $obj->nextLevelPoint = $VipD[$nextLevel];
-        $obj->curLevelPoint = $VipD[$obj->level];
-        $obj->percentage = ($obj->point - $obj->curLevelPoint) * 100.0 / ($obj->nextLevelPoint - $obj->curLevelPoint);
-        return $obj;
+        return $this->convertRecord2Info($record);
     }
     
     public function getNextLevel($level)
@@ -112,6 +117,8 @@ class VipService
     
     /**
      * Get all players having vip >= minLevel
+     * Order by vip level, desc
+     * 
      * @param number $minLevel
      * @param number $page
      * @param number $count
@@ -119,6 +126,19 @@ class VipService
      */
     public function getVipPlayers($minLevel = 1, $page = 0, $count = 10)
     {
-        
+        $users = UserVip::where('level', '>=', $minLevel)
+        ->orderBy('level', 'desc')
+        ->skip($page * $count)
+        ->take($count)
+        ->get();
+        $list = [];
+        if ($users->isNotEmpty())
+        {
+            foreach ($users as $user)
+            {
+                $list[] = $this->convertRecord2Info($user);
+            }
+        }
+        return $list;
     }
 }

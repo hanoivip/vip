@@ -9,10 +9,9 @@ Route::middleware([
     ->group(function () {
     // define home
     Route::get('/', function () {
-        return response()->redirectToRoute('vip.settings');
+        return response()->redirectToRoute('vip.user');
     })->name('vip');
     // use cases
-    Route::get('/settings', 'VipController@getSettings')->name('vip.settings');
     Route::get('/user', 'VipController@userInfo')->name('vip.user');
     Route::get('/rank', 'VipController@rank')->name('vip.rank');
 });

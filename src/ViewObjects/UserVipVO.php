@@ -30,4 +30,9 @@ class UserVipVO
      * @var float
      */
     public $percentage;
+    /**
+     * 
+     * @var number
+     */
+    public $expires;
 }
