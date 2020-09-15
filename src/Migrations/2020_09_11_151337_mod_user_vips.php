@@ -8,14 +8,14 @@ class ModUserVips extends Migration
 {
     public function up()
     {
-        Schema::table('users', function (Blueprint $table) {
+        Schema::table('user_vips', function (Blueprint $table) {
             $table->integer('expires')->default(0);
         });
     }
 
     public function down()
     {
-        Schema::table('users', function (Blueprint $table) {
+        Schema::table('user_vips', function (Blueprint $table) {
             $table->dropColumn('expires');
         });
     }

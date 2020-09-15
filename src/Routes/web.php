@@ -8,11 +8,7 @@ Route::middleware([
     ->prefix('vip')
     ->group(function () {
     // define home
-    Route::get('/', function () {
-        return response()->redirectToRoute('vip.user');
-    })->name('vip');
-    // use cases
-    Route::get('/user', 'VipController@userInfo')->name('vip.user');
+    Route::get('/user', 'VipController@userInfo')->name('vip');
 });
     
 Route::middleware([
