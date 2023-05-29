@@ -87,7 +87,7 @@ class VipService
     
     public function handle(UserTopup $event)
     {
-        Log::debug("Vip user has topup..");
+        //Log::debug("Vip user has topup..");
         $record = $this->getRecord($event->uid);
         $point = $this->convert2Point($event->coin);
         $nextLevel = $this->getNextLevel($record->level);

@@ -4,7 +4,11 @@ namespace Hanoivip\Vip\Controllers;
 
 use Hanoivip\Vip\Services\VipCacheService;
 
-
+/**
+ * @deprecated
+ * @author GameOH
+ *
+ */
 class CacheController extends Controller
 {
     private $cache;

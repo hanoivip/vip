@@ -19,13 +19,13 @@ class ModServiceProvider extends ServiceProvider
         $this->loadViewsFrom(__DIR__ . '/../views', 'hanoivip');
         $this->loadRoutesFrom(__DIR__ . '/Routes/web.php');
         $this->loadRoutesFrom(__DIR__ . '/Routes/api.php');
-        $this->loadTranslationsFrom( __DIR__.'/Langs', 'hanoivip');
+        $this->loadTranslationsFrom( __DIR__.'/Langs', 'hanoivip.vip');
         $this->mergeConfigFrom( __DIR__.'/../config/vip.php', 'vip');
     }
 
     public function register()
     {
         $this->app->bind('vip', VipService::class);
-        $this->app->bind('vipCache', VipCacheService::class);
+        //$this->app->bind('vipCache', VipCacheService::class);
     }
 }

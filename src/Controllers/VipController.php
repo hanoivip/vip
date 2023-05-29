@@ -31,9 +31,19 @@ class VipController extends Controller
         if ($request->has('page'))
             $page = $request->input('page');
         $list = $this->service->getVipPlayers($level, $page);
-        if ($request->ajax())
+        if ($request->expectsJson())
             return ['error' => 0, 'message' => '', 'data' => $list];
         else 
-            return view('hanoivip::vip-list', ['list' => $list]);
+        {
+            $template = $request->input('template');
+            if (!empty($template))
+            {
+                return view($template, ['list' => $list]);
+            }
+            else
+            {
+                return view('hanoivip::vip-list', ['list' => $list]);
+            }
+        }
     }
 }
