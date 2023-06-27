@@ -16,7 +16,6 @@ Route::middleware([
 ])->namespace('Hanoivip\Vip\Controllers')
 ->prefix('vip')
 ->group(function () {
-    //Route::get('/rank', 'CacheController@rank')->name('vip.rank');
 });
     
 

@@ -2,7 +2,6 @@
 
 namespace Hanoivip\Vip;
 
-use Hanoivip\Vip\Services\VipCacheService;
 use Hanoivip\Vip\Services\VipService;
 use Illuminate\Support\ServiceProvider;
 
@@ -26,6 +25,5 @@ class ModServiceProvider extends ServiceProvider
     public function register()
     {
         $this->app->bind('vip', VipService::class);
-        //$this->app->bind('vipCache', VipCacheService::class);
     }
 }
