@@ -6,7 +6,6 @@ use Illuminate\Console\Command;
 use Illuminate\Support\Facades\Log;
 use Exception;
 use Hanoivip\Vip\Services\VipService;
-use Hanoivip\Vip\Services\VipCacheService;
 
 class CacheRankList extends Command
 {
@@ -16,13 +15,10 @@ class CacheRankList extends Command
     
     private $vip;
     
-    private $cache;
-    
-    public function __construct(VipService $vip, VipCacheService $cache)
+    public function __construct(VipService $vip)
     {
         parent::__construct();
         $this->vip = $vip;
-        $this->cache = $cache;
     }
     
     public function handle()
@@ -31,7 +27,7 @@ class CacheRankList extends Command
         {
             $list = $this->vip->getVipPlayers();
             print_r($list);
-            $this->cache->cacheData(VipCacheService::RANK_LIST_CACHE, $list);
+            
             $this->info("ok");
         }
         catch (Exception $ex)
